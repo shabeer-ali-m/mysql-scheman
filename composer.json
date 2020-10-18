@@ -14,7 +14,8 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.0",
+        "spatie/array-to-xml": "^2.10"
     },
     "autoload": {
         "psr-4": {
