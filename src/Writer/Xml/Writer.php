@@ -1,10 +1,16 @@
 <?php
 
+/**
+ * MIT License. This file is part of the Scheman package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace MysqlScheman\Writer\Xml;
 
 use Spatie\ArrayToXml\ArrayToXml;
 
-class Writer implements \MysqlScheman\Writer {
+class Writer implements \MysqlScheman\WriterInterface {
 
 	public static function write($database, $data, $filename)
 	{
@@ -12,7 +18,6 @@ class Writer implements \MysqlScheman\Writer {
 		foreach ($data as $tablename => $columns) {
 			$columns_array = [];
 			foreach ($columns as $key => $value) {
-				unset($value['Privileges']);
 				$columns_array[] = ['_attributes' => $value];
 			}
 			$array['table'][] = [
@@ -23,13 +28,17 @@ class Writer implements \MysqlScheman\Writer {
 			];
 		}
 		
-		$xml = ArrayToXml::convert($array, [
+		$arrayToXml = new ArrayToXml($array, [
     			'rootElementName' => 'database',
 			    '_attributes' => [
 			        'name' => $database,
-			    ]
+			    ],
+			    false,
+			    '',
+			    '',
+			    ['formatOutput' => true]
 			]);
-
-		file_put_contents($filename, $xml);
+		$arrayToXml->setDomProperties(['formatOutput' => true]);
+		file_put_contents($filename, $arrayToXml->toXml());
 	}
 }

@@ -1,10 +1,8 @@
 <?php
 
-
 require __DIR__.'/../vendor/autoload.php';
 
-use MysqlScheman\Driver\Pdo\Driver as Driver;
+$scheman = new MysqlScheman\MysqlScheman('127.0.0.1','root','','test');
 
-$scheman = new MysqlScheman\MysqlScheman(new Driver, 'localhost','root','','test');
-
-$scheman->export('db.xml');
+//$scheman->export('db.xml');
+$scheman->sync2db('db.xml');
