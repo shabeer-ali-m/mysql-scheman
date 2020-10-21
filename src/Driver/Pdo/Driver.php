@@ -15,6 +15,7 @@ class Driver implements \MysqlScheman\DriverInterface {
 	public function connect($hostname, $username, $password, $database)
 	{
 		$this->conn = new \PDO("mysql:host=$hostname;dbname=$database", $username, $password);
+		$this->conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 	}
 
 	public function query($sql) : array

@@ -38,13 +38,13 @@ class MysqlScheman
 	 * Schema Array from DB
 	 * @var array
 	 */
-	private $db_schema = [];
+	private $db_schema = null;
 
 	/**
 	 * Schema Array from File
 	 * @var array
 	 */
-	private $file_schema = [];
+	private $file_schema = null;
 
 	/**
 	 * __construct description
@@ -56,10 +56,15 @@ class MysqlScheman
 	 */
 	function __construct($hostname, $username, $password, $database, $driver='pdo')
 	{
-		$driver = "MysqlScheman\\Driver\\".ucfirst($driver)."\\Driver";
 		$this->database = $database;
-		$this->db = new $driver;
+		$this->db = self::getClass("Driver\\".ucfirst($driver)."\\Driver");
 		$this->db->connect($hostname, $username, $password, $database);
+	}
+
+	private static function getClass($class)
+	{
+		$class = 'MysqlScheman\\' . $class;
+		return new $class;
 	}
 
 	/**
@@ -68,8 +73,14 @@ class MysqlScheman
 	 */
 	public function export($filename)
 	{
-		$this->getDbSchema();
-		Writer::write($this->database, $this->db_schema, $filename);
+		if (!class_exists("MysqlScheman\Writer\\".($ext=$this->getFileExt($filename))."\Writer"))
+			throw new \Exception("Invalid File Format : .". strtolower($ext) . PHP_EOL);
+
+		self::getClass('Writer\\'.$ext.'\\Writer')::write(
+			$this->database, 
+			$this->getDatabaseSchema(),
+			$filename
+		);
 	}
 
 	/**
@@ -78,9 +89,10 @@ class MysqlScheman
 	 */
 	public function sync2db($filename)
 	{
-		$this->getDbSchema();
-		$this->getFileSchema($filename);
-		$diff = SchemaDiffer::diff($this->db_schema, $this->file_schema);
+		$diff = SchemaDiffer::diff(
+			$this->getDatabaseSchema(),
+			$this->getFileSchema($filename)
+		);
 		$query = QueryBuilder::build($diff);
 		foreach ($query as $q) {
 			echo $q."\n";
@@ -89,24 +101,44 @@ class MysqlScheman
 	}
 
 	/**
+	 * getFileExt extension
+	 * @param  string $filename
+	 * @return string          
+	 */
+	private function getFileExt($filename)
+	{
+		return ucfirst(pathinfo($filename, PATHINFO_EXTENSION));
+	}
+
+	/**
 	 * getFileSchema
 	 * @param  string $filename [description]
 	 */
 	private function getFileSchema($filename)
 	{
-		$this->file_schema = Reader\Xml\Reader::read($filename);
+		if ($this->file_schema == null) {
+			$ext = ucfirst($this->getFileExt($filename));
+			$this->file_schema = self::getClass('Reader\\'.$ext.'\\Reader')::read($filename);
+		}
+		return $this->file_schema;
 	}
 
 	/**
-	 * getDbSchema from db
+	 * getDatabaseSchema from db
+	 * * @param  array
 	 */
-	private function getDbSchema()
+
+	private function getDatabaseSchema()
 	{
-		$tables = $this->db->query("SHOW TABLES");
-		foreach ($tables as $key => $table) {
-			$tablename = $table['Tables_in_'.$this->database];
-			$columns = $this->db->query("show full columns from $tablename");
-			$this->db_schema[$tablename] = $columns;
+		if ($this->db_schema == null) {
+			$this->db_schema = [];
+			$tables = $this->db->query("SHOW TABLES");
+			foreach ($tables as $key => $table) {
+				$tablename = $table['Tables_in_'.$this->database];
+				$columns = $this->db->query("show full columns from $tablename");
+				$this->db_schema[$tablename] = $columns;
+			}
 		}
+		return $this->db_schema;
 	}
 }
