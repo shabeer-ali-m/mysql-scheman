@@ -1,0 +1,7 @@
+<config>
+    <hostname>127.0.0.1</hostname>
+    <username>root</username>
+    <password></password>
+    <database>test</database>
+    <driver>pdo</driver>
+</config>

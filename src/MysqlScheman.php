@@ -23,6 +23,7 @@ use MysqlScheman\QueryBuilder as QueryBuilder;
  */
 class MysqlScheman
 {
+	const version = '0.0.1';
 	/**
 	 * MysqlScheman\DriverInterface
 	 */	
@@ -61,7 +62,7 @@ class MysqlScheman
 		$this->db->connect($hostname, $username, $password, $database);
 	}
 
-	private static function getClass($class)
+	protected static function getClass($class)
 	{
 		$class = 'MysqlScheman\\' . $class;
 		return new $class;
@@ -74,7 +75,7 @@ class MysqlScheman
 	public function export($filename)
 	{
 		if (!class_exists("MysqlScheman\Writer\\".($ext=$this->getFileExt($filename))."\Writer"))
-			throw new \Exception("Invalid File Format : .". strtolower($ext) . PHP_EOL);
+			throw new \Exception("Unsupported File Format : .". strtolower($ext) . PHP_EOL);
 
 		self::getClass('Writer\\'.$ext.'\\Writer')::write(
 			$this->database, 
@@ -95,7 +96,6 @@ class MysqlScheman
 		);
 		$query = QueryBuilder::build($diff);
 		foreach ($query as $q) {
-			echo $q."\n";
 			$this->db->query($q);
 		}
 	}
@@ -105,7 +105,7 @@ class MysqlScheman
 	 * @param  string $filename
 	 * @return string          
 	 */
-	private function getFileExt($filename)
+	protected function getFileExt($filename)
 	{
 		return ucfirst(pathinfo($filename, PATHINFO_EXTENSION));
 	}

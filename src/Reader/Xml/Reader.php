@@ -8,17 +8,25 @@
 
 namespace MysqlScheman\Reader\Xml;
 
-class Reader {
+class Reader implements \MysqlScheman\ReaderInterface {
 
-	public static function read($filename)
+	public static function readFile($filename) : array
 	{
-		$return = [];
 		$xmlfile = file_get_contents($filename); 
 		$data = simplexml_load_string($xmlfile); 
-		$data = json_decode(json_encode($data), true);
-		foreach($data['table'] as $table) {
-			foreach ($table['columns'] as $key => $attr) {
-				$return[$table['@attributes']['name']][] = $attr['@attributes'];
+		return json_decode(json_encode($data), true);
+	}
+
+
+	public static function read($filename) : array
+	{
+		$xmlfile = file_get_contents($filename); 
+		$data = simplexml_load_string($xmlfile); 
+		$return = [];
+		foreach($data->table as $table) {
+			$tbl_name = (string) $table->attributes()['name'];
+			foreach ($table->columns as $key => $attr) {
+				$return[$tbl_name][] = ((array) $attr)['@attributes'];
 			}
 		}
 		return $return;

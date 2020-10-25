@@ -20,9 +20,15 @@ class Driver implements \MysqlScheman\DriverInterface {
 
 	public function query($sql) : array
 	{
-		$stmt = $this->conn->prepare($sql);
-  		$stmt->execute();
+		try {
+			$stmt = $this->conn->prepare($sql);
+  			$stmt->execute();
+  		} catch(\PDOException $e) {
+  		  throw new \Exception($e->getMessage() . PHP_EOL . "Query : ". PHP_EOL . $sql . PHP_EOL);
+		}
   		$stmt->setFetchMode(\PDO::FETCH_ASSOC);
-  		return $stmt->fetchAll();
+  		if ($stmt->rowCount())
+  			return $stmt->fetchAll();
+  		return[];
 	}
 }
