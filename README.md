@@ -30,20 +30,20 @@ XML: config.xml
 
 To CLI Help
 ```sh
-./vendor/scheman --help
-```sh
+./vendor/bin/scheman --help
+```
 
 Exporting Database to Schema File:
 
 ```sh
-./vendor/scheman --config `config.json` --export `yourdatabase.json`
-```sh
+./vendor/bin/scheman --config config.json --export yourdatabase.json
+```
 
 Sync the file schema with your database
 
 ```sh
-./vendor/scheman --config `config.json` --sync `yourdatabase.json`
-```sh
+./vendor/bin/scheman --config config.json --sync yourdatabase.json
+```
 
 ## License
 See the `LICENSE` file.
