@@ -1,7 +1,7 @@
 {
     "name": "smart-php/mysql-scheman",
-    "description": "",
-    "keywords": [],
+    "description": "MySQL schema synchronizer. A simple way to handle MySQL schema without writing MySQL query",
+    "keywords": ["mysql","scheman","schema","database","database schema","sync","php","smart-php"],
     "license": "MIT",
     "authors": [
         {

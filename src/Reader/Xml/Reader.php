@@ -10,11 +10,15 @@ namespace MysqlScheman\Reader\Xml;
 
 class Reader implements \MysqlScheman\ReaderInterface {
 
-	public static function readFile($filename) : array
+	public static function readConfig($filename) : array
 	{
+		$return = [];
 		$xmlfile = file_get_contents($filename); 
 		$data = simplexml_load_string($xmlfile); 
-		return json_decode(json_encode($data), true);
+		foreach ($data as $key => $val) {
+			$return[$key] = $val->__toString();
+		}
+		return $return;
 	}
 
 

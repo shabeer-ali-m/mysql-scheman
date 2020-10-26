@@ -39,10 +39,7 @@ class MysqlSchemanCli extends MysqlScheman
 	public function setConfig($file)
 	{
 		$ext = $this->getFileExt($file);
-		$this->config = self::getClass('Reader\\'.$ext.'\\Reader')::readFile($file);
-		array_walk($this->config, function(&$conf) {
-			if (empty($conf)) $conf = null;
-		});
+		$this->config = self::getClass('Reader\\'.$ext.'\\Reader')::readConfig($file);
 	}
 
 	public function export($filename)
