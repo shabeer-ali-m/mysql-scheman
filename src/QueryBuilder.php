@@ -32,18 +32,16 @@ class QueryBuilder
         if (isset($c['Null'])) {
             if ($c['Null'] == "YES") {
                 $Query['Null'] = " NULL ";
-            } else if ($c['Null'] == "NO") {
+            } elseif ($c['Null'] == "NO") {
                 $Query['Null'] = " NOT NULL ";
             }
         }
         if (isset($c['Default']) && $c['Default'] != null) {
             if ($c['Default'] == 'CURRENT_TIMESTAMP') {
                 $Query['Default'] = " default " . $c['Default'] . " ";
-
             } else {
                 $Query['Default'] = " default '" . $c['Default'] . "' ";
             }
-
         }
         if (isset($c['Extra'])) {
             $Query['Extra'] = $c['Extra'];
@@ -59,7 +57,7 @@ class QueryBuilder
      * @param  [array] $table
      * @return [string] SQL Query
      */
-    private static function tableQuery($table, $column, $action="")
+    private static function tableQuery($table, $column, $action = "")
     {
         $keys = "";
         $sql = "";
@@ -67,12 +65,12 @@ class QueryBuilder
             if (isset($c['Key']) && $c['Key'] != "") {
                 if ($c['Key'] == "PRI") {
                     $keys .= " PRIMARY KEY  (`" . $c['Field'] . "`) ";
-                } else if ($c['Key'] == "UNI") {
+                } elseif ($c['Key'] == "UNI") {
                     if ($keys != "") {
                         $keys .= ", ";
                     }
                     $keys .= " UNIQUE (`" . $c['Field'] . "`) ";
-                } else if ($c['Key'] == "MUL") {
+                } elseif ($c['Key'] == "MUL") {
                     if ($keys != "") {
                         $keys .= ", ";
                     }
@@ -81,7 +79,7 @@ class QueryBuilder
             }
             $sql .= $action . ($action == 'CHANGE' ? " `".$c['Field']."`" : '') . " `".$c['Field']."` " . self::structure($c).",";
         }
-        return rtrim($sql,',') . ($keys ? ','.$keys: '');
+        return rtrim($sql, ',') . ($keys ? ','.$keys: '');
     }
 
     /**

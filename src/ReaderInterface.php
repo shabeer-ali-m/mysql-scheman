@@ -14,7 +14,7 @@ namespace MysqlScheman;
 
 interface ReaderInterface
 {
-	public static function readConfig(string $file) : array;
+    public static function readConfig(string $file) : array;
 
-	public static function read(string $file) : array;
+    public static function read(string $file) : array;
 }

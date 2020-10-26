@@ -10,53 +10,54 @@
 
 namespace MysqlScheman;
 
-
 /**
  * MysqlSchemanCli Class
  */
 class MysqlSchemanCli extends MysqlScheman
 {
-	private $instance = null;
+    private $instance = null;
 
-	private $config = [];
+    private $config = [];
 
-	function __construct() {}
+    function __construct()
+    {
+    }
 
-	public function getInstance()
-	{
-	    if ($this->instance == null) {
-	    	$this->instance = new MysqlScheman(
-	    		(string) $this->config['hostname'],
-	    		(string) $this->config['username'],
-	    		(string) $this->config['password'],
-	    		(string) $this->config['database'],
-	    		(string) $this->config['driver'],
-	    	);
-	    }
-	    return $this->instance;
-	}
+    public function getInstance()
+    {
+        if ($this->instance == null) {
+            $this->instance = new MysqlScheman(
+                (string) $this->config['hostname'],
+                (string) $this->config['username'],
+                (string) $this->config['password'],
+                (string) $this->config['database'],
+                (string) $this->config['driver'],
+            );
+        }
+        return $this->instance;
+    }
 
-	public function setConfig($file)
-	{
-		$ext = $this->getFileExt($file);
-		$this->config = self::getClass('Reader\\'.$ext.'\\Reader')::readConfig($file);
-	}
+    public function setConfig($file)
+    {
+        $ext = $this->getFileExt($file);
+        $this->config = self::getClass('Reader\\'.$ext.'\\Reader')::readConfig($file);
+    }
 
-	public function export($filename)
-	{
-		if (empty($this->config)) {
-			throw new \Exception("Database configaration is missing. (use --config <configfile>) ". strtolower($ext) . PHP_EOL);
-			return;
-		}
-		$this->getInstance()->export($filename);
-	}
+    public function export($filename)
+    {
+        if (empty($this->config)) {
+            throw new \Exception("Database configaration is missing. (use --config <configfile>) ". strtolower($ext) . PHP_EOL);
+            return;
+        }
+        $this->getInstance()->export($filename);
+    }
 
-	public function sync2db($filename)
-	{
-		if (empty($this->config)) {
-			throw new \Exception("Database configaration is missing. (use --config <configfile>) ". strtolower($ext) . PHP_EOL);
-			return;
-		}
-		$this->getInstance()->sync2db($filename);
-	}
+    public function sync2db($filename)
+    {
+        if (empty($this->config)) {
+            throw new \Exception("Database configaration is missing. (use --config <configfile>) ". strtolower($ext) . PHP_EOL);
+            return;
+        }
+        $this->getInstance()->sync2db($filename);
+    }
 }

@@ -14,7 +14,7 @@ namespace MysqlScheman;
 
 interface DriverInterface
 {
-	public function connect($hostname, $username, $password, $database);
+    public function connect($hostname, $username, $password, $database);
 
-	public function query($sql) : array;
+    public function query($sql) : array;
 }

@@ -8,14 +8,15 @@
 
 namespace MysqlScheman\Writer\Json;
 
-class Writer implements \MysqlScheman\WriterInterface {
+class Writer implements \MysqlScheman\WriterInterface
+{
 
-	public static function write($database, $data, $filename)
-	{
-		$array = [
-			'name' => $database,
-			'schema'=> $data
-		];
-		file_put_contents($filename, json_encode($array, JSON_PRETTY_PRINT));
-	}
+    public static function write($database, $data, $filename)
+    {
+        $array = [
+            'name' => $database,
+            'schema'=> $data
+        ];
+        file_put_contents($filename, json_encode($array, JSON_PRETTY_PRINT));
+    }
 }

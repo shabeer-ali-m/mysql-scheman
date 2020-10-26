@@ -8,18 +8,17 @@
 
 namespace MysqlScheman\Driver\Mysqli;
 
-class Driver implements \MysqlScheman\DriverInterface {
+class Driver implements \MysqlScheman\DriverInterface
+{
 
-	private $conn;
+    private $conn;
 
-	public function connect($hostname, $username, $password, $database)
-	{
-		$this->conn = new mysqli($hostname, $username, $password, $database);
-	}
+    public function connect($hostname, $username, $password, $database)
+    {
+        $this->conn = new mysqli($hostname, $username, $password, $database);
+    }
 
-	public function query($sql)
-	{
-		
-	}
-
+    public function query($sql)
+    {
+    }
 }
