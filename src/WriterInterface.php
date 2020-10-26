@@ -14,5 +14,5 @@ namespace MysqlScheman;
 
 interface WriterInterface
 {
-    public static function write($database, $data = [], $file);
+    public static function write($database, $data, $file);
 }

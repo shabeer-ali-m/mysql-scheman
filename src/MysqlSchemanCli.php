@@ -19,7 +19,7 @@ class MysqlSchemanCli extends MysqlScheman
 
     private $config = [];
 
-    function __construct()
+    public function __construct()
     {
     }
 
@@ -46,7 +46,11 @@ class MysqlSchemanCli extends MysqlScheman
     public function export($filename)
     {
         if (empty($this->config)) {
-            throw new \Exception("Database configaration is missing. (use --config <configfile>) ". strtolower($ext) . PHP_EOL);
+            throw new \Exception(
+                "Database configaration is missing. (use --config <configfile>) "
+                . strtolower($ext)
+                . PHP_EOL
+            );
             return;
         }
         $this->getInstance()->export($filename);
@@ -55,7 +59,11 @@ class MysqlSchemanCli extends MysqlScheman
     public function sync2db($filename)
     {
         if (empty($this->config)) {
-            throw new \Exception("Database configaration is missing. (use --config <configfile>) ". strtolower($ext) . PHP_EOL);
+            throw new \Exception(
+                "Database configaration is missing. (use --config <configfile>) "
+                . strtolower($ext)
+                . PHP_EOL
+            );
             return;
         }
         $this->getInstance()->sync2db($filename);

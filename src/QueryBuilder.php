@@ -77,7 +77,9 @@ class QueryBuilder
                     $keys .= " INDEX (`" . $c['Field'] . "`) ";
                 }
             }
-            $sql .= $action . ($action == 'CHANGE' ? " `".$c['Field']."`" : '') . " `".$c['Field']."` " . self::structure($c).",";
+            $sql .= $action
+                 . ($action == 'CHANGE' ? " `".$c['Field']."`" : '')
+                 . " `".$c['Field']."` " . self::structure($c).",";
         }
         return rtrim($sql, ',') . ($keys ? ','.$keys: '');
     }

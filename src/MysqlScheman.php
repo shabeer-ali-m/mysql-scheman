@@ -23,7 +23,7 @@ use MysqlScheman\QueryBuilder as QueryBuilder;
  */
 class MysqlScheman
 {
-    const version = '0.0.1';
+    const VERSION = '0.0.1';
     /**
      * MysqlScheman\DriverInterface
      */
@@ -55,7 +55,7 @@ class MysqlScheman
      * @param string $database
      * @param string $driver
      */
-    function __construct($hostname, $username, $password, $database, $driver = 'pdo')
+    public function __construct($hostname, $username, $password, $database, $driver = 'pdo')
     {
         $this->database = $database;
         $this->db = self::getClass("Driver\\".ucfirst($driver)."\\Driver");
