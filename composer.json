@@ -18,6 +18,9 @@
         "spatie/array-to-xml": "^2.10",
         "splitbrain/php-cli": "^1.1"
     },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "3.*"
+    },
     "autoload": {
         "psr-4": {
             "MysqlScheman\\": "src/"
