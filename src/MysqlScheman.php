@@ -137,6 +137,10 @@ class MysqlScheman
             foreach ($tables as $key => $table) {
                 $tablename = $table['Tables_in_'.$this->database];
                 $columns = $this->db->query("show full columns from $tablename");
+                foreach ($columns as &$col) {
+                    unset($col['Privileges']);
+                    unset($col['Collation']);
+                }
                 $this->db_schema[$tablename] = $columns;
             }
         }
