@@ -4,6 +4,7 @@
     "keywords": ["mysql","scheman","schema","database","database schema","sync","php","smart-php"],
     "license": "MIT",
     "version": "0.0.4",
+    "minimum-stability": "stable",
     "authors": [
         {
             "name": "Shabeer Ali M",
