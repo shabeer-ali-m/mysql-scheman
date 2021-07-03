@@ -3,6 +3,7 @@
     "description": "MySQL schema synchronizer. A simple way to handle MySQL schema without writing MySQL query",
     "keywords": ["mysql","scheman","schema","database","database schema","sync","php","smart-php"],
     "license": "MIT",
+    "version": "0.0.4",
     "authors": [
         {
             "name": "Shabeer Ali M",
