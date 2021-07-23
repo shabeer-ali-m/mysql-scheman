@@ -1,0 +1,7 @@
+{
+	"hostname": "localhost",
+	"username": "root",
+	"password": "",
+	"database": "test",
+	"driver": "pdo"
+}
