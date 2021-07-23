@@ -25,8 +25,8 @@ Or alternatively, include a dependency for MySQL Scheman in your composer.json f
 
 A database configuration file should be there to communicate with the database. Please see the sample files and create a copy in your working directory with your database credentials.
 
-JSON: config.json
-XML: config.xml
+JSON: config.json.example
+XML: config.xml.example
 
 ### Usage (CLI)
 
